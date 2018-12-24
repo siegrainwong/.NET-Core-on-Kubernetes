@@ -1,0 +1,40 @@
+---
+
+kind: Deployment   # 组件类型
+apiVersion: apps/v1
+metadata:
+  name: hello-api
+  namespace: netcore  # 可指定，不指定时使用默认命名空间
+  labels:
+    name: hello-api
+spec:
+  replicas: 2 # 部署两份叫 hello-api 的容器
+  selector:
+    matchLabels:
+      name: hello-api
+  template:
+    metadata:
+      labels:
+        name: hello-api
+    spec:
+      containers:
+        - name: hello-api
+          image: siegrainwong/k8s-demo  # docker hub 中的镜像名称
+          ports: 
+          - containerPort: 80
+          imagePullPolicy: Always
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-api
+  namespace: netcore
+spec: 
+  type: NodePort
+  ports: 
+    - port: 80
+      targetPort: 80
+  selector:
+    name: hello-api # 对应要映射的Pod

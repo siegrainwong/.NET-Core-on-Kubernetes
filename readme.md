@@ -1,0 +1,1 @@
+https://siegrain.wang/kubernetes/windows-net-core-kubernetes/
